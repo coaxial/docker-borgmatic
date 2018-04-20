@@ -4,9 +4,8 @@ A docker container running [borgmatic](https://torsion.org/borgmatic/) to backup
 
 # Usage
 
-Copy the config.example.yaml to config.yaml and edit it to suit your needs.
+Put the data to backup at /var/backup on the docker host (will appear at /backup in the container)
 
-Mount the data to backup at `/backups` (use subdirs if needed).
+Put the configuration files at borgmatic/ (ssh keys, borg keys, borgmatic config.yaml file, borg passphrase file, .jobber file...)
 
-Add your ssh key as `ssh.key`
-TODO: figure out ssh key and repo keys usage (probably as files to be mounted in?)
+If you need inspiration, there is an example .jobber file at .jobber.example and an example borgmatic config file at config.example.yaml.
