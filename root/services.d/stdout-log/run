@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+
+tail -f /var/log/jobber-runs
