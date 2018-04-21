@@ -23,7 +23,7 @@ RUN apk --no-cache add borgbackup
 ARG BORGMATIC_VERSION=1.1.15
 RUN pip3 install borgmatic==$BORGMATIC_VERSION
 
-RUN mkdir -p /var/log/borgmatic /var/log/jobber &&\
+RUN mkdir -p /var/log/jobber &&\
   touch /var/log/jobber-runs
 
 VOLUME /borgmatic
