@@ -18,21 +18,9 @@ ENV PATH /jobber:${PATH}
 RUN mkdir -p /var/jobber/0
 
 # install borg and borgmatic
-# inspired from https://github.com/b3vis/docker-borgmatic/blob/master/Dockerfile
-ARG BORG_VERSION=1.1.5
+RUN apk --no-cache add borgbackup
+
 ARG BORGMATIC_VERSION=1.1.15
-
-RUN apk --no-cache add gnupg
-# from https://borgbackup.readthedocs.io/en/stable/installation.html#pyinstaller-binary
-ADD https://github.com/borgbackup/borg/releases/download/$BORG_VERSION/borg-linux64 /tmp
-ADD https://github.com/borgbackup/borg/releases/download/$BORG_VERSION/borg-linux64.asc /tmp
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 9F88FB52FAF7B393 &&\
-  gpg --verify /tmp/borg-linux64.asc /tmp/borg-linux64 &&\
-  mv /tmp/borg-linux64 /usr/local/bin/borg &&\
-  chown root:root /usr/local/bin/borg &&\
-  chmod 755 /usr/local/bin/borg &&\
-  rm /tmp/borg-linux64.asc
-
 RUN pip3 install borgmatic==$BORGMATIC_VERSION
 
 RUN mkdir -p /var/log/borgmatic /var/log/jobber &&\
