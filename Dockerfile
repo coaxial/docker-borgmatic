@@ -35,7 +35,8 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 9F88FB52FAF7B393 &&\
 
 RUN pip3 install borgmatic==$BORGMATIC_VERSION
 
-RUN mkdir -p /var/log/borgmatic /var/log/jobber
+RUN mkdir -p /var/log/borgmatic /var/log/jobber &&\
+  touch /var/log/jobber-runs
 
 VOLUME /borgmatic
 VOLUME /cache
