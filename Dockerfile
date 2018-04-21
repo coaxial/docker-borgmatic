@@ -4,8 +4,8 @@ ARG JOBBER_VERSION=1.3.2
 ARG TARBALL_SHASUM=c265ee1a7076c523b44e900869b8af01817d92a5b543501e77db9277c8cf1f25
 RUN apk add --no-cache make rsync grep ca-certificates openssl
 WORKDIR /go_wkspc/src/github.com/dshearer
-ADD https://api.github.com/repos/dshearer/jobber/tarball/v${JOBBER_VERSION} v$JOBBER_VERSION
-RUN echo "$TARBALL_SHASUM v$JOBBER_VERSION" | sha256sum -cw && \
+ADD https://api.github.com/repos/dshearer/jobber/tarball/v$JOBBER_VERSION v$JOBBER_VERSION
+RUN echo "$TARBALL_SHASUM  v$JOBBER_VERSION" | sha256sum -cw && \
   tar xzf v$JOBBER_VERSION && rm v$JOBBER_VERSION && mv dshearer-* jobber && \
   cd jobber && \
   make check && \
