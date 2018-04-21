@@ -35,6 +35,8 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 9F88FB52FAF7B393 &&\
 
 RUN pip3 install borgmatic==$BORGMATIC_VERSION
 
+RUN mkdir -p /var/log/borgmatic /var/log/jobber
+
 VOLUME /borgmatic
 VOLUME /cache
 VOLUME /var/log
@@ -52,7 +54,6 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY
 RUN tar xzf /tmp/s6-overlay-$S6_OVERLAY_ARCH.tar.gz -C / &&\
 rm /tmp/s6-overlay-$S6_OVERLAY_ARCH.tar.gz
 
-RUN mkdir -p /var/log/borgmatic /var/log/jobber
 COPY root/ /
 
 ENTRYPOINT ["/init"]
