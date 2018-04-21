@@ -11,5 +11,5 @@ services:
       - logs:/var/log
 
 volumes:
-  - cache:
-  - logs:
+  cache:
+  logs:
