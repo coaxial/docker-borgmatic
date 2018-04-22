@@ -18,7 +18,7 @@ ENV PATH /jobber:${PATH}
 RUN mkdir -p /var/jobber/0
 
 # install borg and borgmatic
-RUN apk --no-cache add borgbackup
+RUN apk --no-cache add borgbackup openssh-client
 
 ARG BORGMATIC_VERSION=1.1.15
 RUN pip3 install borgmatic==$BORGMATIC_VERSION
