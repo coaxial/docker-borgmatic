@@ -1,2 +1,2 @@
 #!/usr/bin/with-contenv sh
-tail -f /var/log/jobber-runs
+tail -f /var/log/borgmatic/current
