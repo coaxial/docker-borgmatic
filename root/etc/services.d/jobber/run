@@ -1,3 +1,2 @@
-#!/usr/bin/sh
-
+#!/usr/bin/with-contenv sh
 /jobber/jobberrunner /borgmatic/.jobber
