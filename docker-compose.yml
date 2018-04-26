@@ -9,6 +9,7 @@ services:
       - cache:/cache
       - /var/backup:/backup
       - logs:/var/log
+      - ./ssh/known_hosts:/root/.ssh/known_hosts:ro
 
 volumes:
   cache:

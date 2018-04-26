@@ -29,6 +29,7 @@ RUN mkdir -p /var/log/jobber &&\
 VOLUME /borgmatic
 VOLUME /cache
 VOLUME /var/log
+VOLUME /root/.ssh
 
 ENV BORG_CACHE_DIR /cache
 
