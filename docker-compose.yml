@@ -1,0 +1,16 @@
+# TODO set borg env vars for password, ssh key, remote_path
+version: '3'
+services:
+  borgmatic:
+    build: .
+    restart: always
+    volumes:
+      - ./borgmatic:/borgmatic:ro
+      - cache:/cache
+      - /var/backup:/backup
+      - logs:/var/log
+      - ./ssh/known_hosts:/root/.ssh/known_hosts:ro
+
+volumes:
+  cache:
+  logs:

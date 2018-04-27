@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+/jobber/jobberrunner /borgmatic/.jobber
