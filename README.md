@@ -34,8 +34,6 @@ mountpoint | purpose
 
 For more details on how to setup logging, see [here](http://skarnet.org/software/s6/s6-log.html) and [there](https://github.com/just-containers/s6-overlay#logging). TLDR: create a `log/run` sh script to log to stdout.
 
-Assumes that your borgmatic logs will be located at `/var/log/borgmatic/current`, cf. https://github.com/coaxial/ansible-role-mailcow/blob/master/files/run-borgmatic.sh for inspiration.
-
 # Example
 
 See https://github.com/coaxial/ansible-role-mailcow/blob/master/tasks/borgmatic.yml for an Ansible task configuring the borgmatic container.
