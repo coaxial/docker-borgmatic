@@ -1,8 +1,17 @@
-# Docker Borgmatic container
+# Docker Borgmatic service
 
-A docker container running [borgmatic](https://torsion.org/borgmatic/) to backup anything to anywhere.
+`master`: [![Build Status](https://travis-ci.org/coaxial/docker-borgmatic.svg?branch=master)](https://travis-ci.org/coaxial/docker-borgmatic)
+
+`snooze`: [![Build Status](https://travis-ci.org/coaxial/docker-borgmatic.svg?branch=snooze)](https://travis-ci.org/coaxial/docker-borgmatic)
+
+A docker service running [borgmatic](https://torsion.org/borgmatic/) to backup anything to anywhere.
 
 Leverages [borg](https://borgbackup.readthedocs.io/), [s6](http://skarnet.org/software/s6/index.html), and [s6-overlay](https://github.com/just-containers/s6-overlay)
+
+# Variants
+
+- the `master` branch uses [jobber](https://dshearer.github.io/jobber/) as a cron replacement (I'm keeping it around for backwards compatibility, some of my deployments still use it)
+- the `snooze` branch uses [snooze](https://github.com/chneukirchen/snooze) as a cron replacement (best if you're starting from scratch: simpler to use and configure)
 
 # Usage
 
@@ -41,3 +50,4 @@ See https://github.com/coaxial/ansible-role-mailcow/blob/master/tasks/borgmatic.
 # Details
 
 This project uses [s6](http://skarnet.org/software/s6/index.html) to manage services via [s6-overlay](https://github.com/just-containers/s6-overlay).
+
