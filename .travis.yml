@@ -1,0 +1,7 @@
+---
+jobs:
+  include:
+    - stage: test
+      services:
+        - docker
+      script: docker-compose up -d
