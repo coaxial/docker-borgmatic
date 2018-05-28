@@ -8,38 +8,46 @@ A docker service running [borgmatic](https://torsion.org/borgmatic/) to backup a
 
 Leverages [borg](https://borgbackup.readthedocs.io/), [s6](http://skarnet.org/software/s6/index.html), and [s6-overlay](https://github.com/just-containers/s6-overlay)
 
-## Variants
+# Variants
 
-- the `master` branch uses [jobber](https://dshearer.github.io/jobber/) as a cron replacement
-- the `snooze` branch uses [snooze](https://github.com/chneukirchen/snooze) as a cron replacement
+- the `master` branch uses [jobber](https://dshearer.github.io/jobber/) as a cron replacement (I'm keeping it around for backwards compatibility, some of my deployments still use it)
+- the `snooze` branch uses [snooze](https://github.com/chneukirchen/snooze) as a cron replacement (best if you're starting from scratch: simpler to use and configure)
 
-## Usage
+# Usage
 
-### Borgmatic's config.yaml file
+The data to backup is expected to be at `/var/backup` on the host, and will appear at `/backup` within the container.
 
-Borgmatic will look for its `config.yaml` file in the `borgmatic/` directory. See the `config.yaml.example` file for inspiration and `config.full.yaml.example` for every available option.
+Add the required files (cf. below) at `borgmatic/` and run the container with `docker-compose up -d`.
 
-### Before, on success, on fail hooks
+See **Example** below for an Ansible playbook configuring this service as part of a mail server deployment.
 
-The example Borgmatic config file uses before-backup, after-backup, and failed-backup scripts. They provide a convenient mechanism for preparing the backups, cleaning up after them, and handling failures. They are only here for inspiration, but they're not required; it depends on what is in you `config.yaml` file. The path must be absolute, anything in `borgmatic/` is mounted as `/borgmatic/` within the container.
+# Required files
 
-### ssh keys and known_hosts file
-
-To avoid borg prompting for a password or to accept the SSH fingerprint, the files at `ssh/` will be mounted at `/root/.ssh` in the container. You most likely want your `id_rsa{,pub}` and `known_hosts` files in there. To generate the `known_hosts` file, you can either use `ssh-keyscan` or ssh to the remote server within a temporary container and look at the resulting `known_hosts` file.
+filename | purpose | notes
+---|---|---
+`ssh/known_hosts` | mounted at `/root/.ssh/known_hosts` to avoid ssh failing when first connecting to a host because key validation failed (mounted read only so that key changes are failures) | use `ssh-keyscan <hostname/ip>` to generate entries to paste in the file
+`borgmatic/*` | mounted at `/borgmatic`, for any files required by jobber etc (more details below) |
+`borgmatic/<ssh key{,.pub}>` | ssh keys used by borg/borgmatic/ssh |
+`borgmatic/.jobber` | jobber file to execute (cf. https://dshearer.github.io/jobber/doc/v1.3/#jobfile) | see `.jobber.example`
+`borgmatic/config.yaml` | borgmatic config file (cf. https://torsion.org/borgmatic/) | see `config.example.yaml`
 
 # Volumes
 
 mountpoint | purpose
 `/borgmatic` | required files, cf. section above
 `/cache` | borg cache if you want to persist it, cf. https://borgbackup.readthedocs.io/
-`/root/.ssh` | share ssh keys and known_hosts file with container
+`/var/log` | all logs, so they survive containers and so that other containers can access them
+`/root/.ssh` | support for custom `known_hosts` file if needed
 
 # Logging
 
-For more details on how to setup logging, see [here](http://skarnet.org/software/s6/s6-log.html) and [there](https://github.com/just-containers/s6-overlay#logging). TLDR: create a `root/etc/services.d/borgmatic/log/run` sh script to log to stdout.
+For more details on how to setup logging, see [here](http://skarnet.org/software/s6/s6-log.html) and [there](https://github.com/just-containers/s6-overlay#logging). TLDR: create a `log/run` sh script to log to stdout.
 
-# Examples
+# Example
 
-- See https://github.com/coaxial/ansible-role-mailcow/blob/master/tasks/borgmatic.yml for an Ansible task using the jobber version of this service.
+See https://github.com/coaxial/ansible-role-mailcow/blob/master/tasks/borgmatic.yml for an Ansible task configuring the borgmatic container.
 
-- See https://github.com/coaxial/ansible-role-taskd/ for an Ansible role using the snooze version of this service.
+# Details
+
+This project uses [s6](http://skarnet.org/software/s6/index.html) to manage services via [s6-overlay](https://github.com/just-containers/s6-overlay).
+
