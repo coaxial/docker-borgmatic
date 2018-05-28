@@ -11,10 +11,12 @@ jobs:
           update: true
           packages:
             - shellcheck
+      install: shellcheck --version
       script: shellcheck -x ./borgmatic/*-backup.example
     - addons:
         apt:
           update: true
           packages:
             - shellcheck
+      install: shellcheck --version
       script: shopt -s globstar && shellcheck -x ./root/**/run
