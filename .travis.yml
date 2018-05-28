@@ -5,3 +5,14 @@ jobs:
       services:
         - docker
       script: docker-compose up -d
+      after_script: docker-compose logs
+    - addons:
+        apt:
+          packages:
+            - shellcheck
+      script: shellcheck -x ./borgmatic/*-backup.example
+    - addons:
+        apt:
+          packages:
+            - shellcheck
+      script: shopt -s globstar && shellcheck -x ./root/**/run
