@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+#shellcheck shell=sh
+
+exec snooze -v -H/1 borgmatic -c /borgmatic/config.yaml

@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv sh
-# shellcheck shell=sh
-exec tail -Fq /var/log/borgmatic/current
