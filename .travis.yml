@@ -6,17 +6,21 @@ jobs:
         - docker
       script: docker-compose up -d
       after_script: docker-compose logs
-    - addons:
-        apt:
-          update: true
-          packages:
-            - shellcheck
-      install: shellcheck --version
+
+    - install:
+        # Install a custom version of shellcheck instead of Travis CI's ancient default
+        - scversion="stable"
+        - wget "https://storage.googleapis.com/shellcheck/shellcheck-$scversion.linux.x86_64.tar.xz"
+        - tar --xz -xvf "shellcheck-$scversion.linux.x86_64.tar.xz"
+        - shellcheck() { "shellcheck-$scversion/shellcheck" "$@"; }
+        - shellcheck --version
       script: shellcheck -x ./borgmatic/*-backup.example
-    - addons:
-        apt:
-          update: true
-          packages:
-            - shellcheck
-      install: shellcheck --version
+
+    - install:
+        # Install a custom version of shellcheck instead of Travis CI's ancient default
+        - scversion="stable"
+        - wget "https://storage.googleapis.com/shellcheck/shellcheck-$scversion.linux.x86_64.tar.xz"
+        - tar --xz -xvf "shellcheck-$scversion.linux.x86_64.tar.xz"
+        - shellcheck() { "shellcheck-$scversion/shellcheck" "$@"; }
+        - shellcheck --version
       script: shopt -s globstar && shellcheck -x ./root/**/run
