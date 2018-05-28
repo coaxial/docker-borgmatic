@@ -8,11 +8,13 @@ jobs:
       after_script: docker-compose logs
     - addons:
         apt:
+          update: true
           packages:
             - shellcheck
       script: shellcheck -x ./borgmatic/*-backup.example
     - addons:
         apt:
+          update: true
           packages:
             - shellcheck
       script: shopt -s globstar && shellcheck -x ./root/**/run
