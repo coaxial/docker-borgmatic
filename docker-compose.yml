@@ -7,7 +7,7 @@ services:
     volumes:
       - ./borgmatic:/borgmatic:ro
       - cache:/cache
-      - ./ssh:/root/ssh:ro
+      - ./ssh:/root/.ssh:ro
 
 volumes:
   cache:
